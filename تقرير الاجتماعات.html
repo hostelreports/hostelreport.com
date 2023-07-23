@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>تقرير الاجتماعات</title>
+  <style>
+    body {
+      background-image: linear-gradient(to bottom, #f3f3f3, #ffffff);
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    
+    h1 {
+      font-size: 24px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    
+    table {
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    
+    th, td {
+      padding: 8px;
+      border: 1px solid black;
+    }
+    
+    td[contenteditable="true"] {
+      background-color: lightyellow;
+    }
+    
+    .button-container {
+      display: flex;
+      flex-direction: row;
+      margin-top: 10px;
+    }
+    
+    .button-container button {
+      margin-right: 10px;
+      padding: 4px 10px;
+      font-size: 14px;
+      border: none;
+      border-radius: 4px;
+      background-color: #4caf50;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .button-container button:hover {
+      background-color: #45a049;
+    }
+    
+    @media print {
+      .button-container,
+      .back-button,
+      #updateButton,
+      #companyNameInputContainer {
+        display: none;
+      }
+      
+      #ratingContainer {
+        display: block;
+      }
+      
+      /* أضف فراغ بين التقييم والأزرار */
+      #ratingContainer {
+        margin-bottom: 20px;
+      }
+    }
+    
+    /* ترتيب الأعمدة من اليمين إلى اليسار */
+    table {
+      direction: rtl;
+    }
+    
+    table th, table td {
+      text-align: right;
+    }
+    
+    #updateButton {
+      margin-top: 10px;
+    }
+    
+    /* ترتيب التقييم العام من اليمين إلى اليسار */
+    #ratingContainer {
+      text-align: right;
+    }
+    
+    #ratingContainer label {
+      margin-right: 10px;
+    }
+    
+    #rating {
+      direction: rtl;
+    }
+    
+    #companyNameContainer {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    #companyName {
+      margin-right: 10px;
+    }
+    
+    #reportTitle {
+      margin-left: 10px;
+    }
+    
+    /* النمط الجديد للتوصيات */
+    #recommendations {
+      width: 300px;
+      margin-top: 10px;
+      text-align: right;
+    }
+    
+    /* النمط الجديد لعنوان التوصيات */
+    #recommendationsTitle {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 20px;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <div id="companyNameContainer">
+    <h1 id="reportTitle">تقرير الاجتماعات</h1>
+  </div>
+
+  <div id="noteContainer">
+    <input type="text" id="noteInput" placeholder="أضف ملحوظة">
+  </div>
+  
+  <table id="myTable">
+    <thead>
+      <tr>
+        <th>الأرقام</th>
+        <th>الملاحظات</th>
+        <th>الإجراءات</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <div class="button-container">
+    <button onclick="deleteRow()">حذف الصفوف</button>
+    <button onclick="addRow()">إضافة صف جديد</button>
+    <button onclick="printPage()">طباعة الصفحة والتوصيات</button>
+    <button onclick="deleteTable()">حذف الجدول وكتابة 'لا يوجد ملاحظات'</button>
+  </div>
+  
+  <div id="ratingContainer">
+    <label for="rating">التقييم العام للشركة</label>
+    <select id="rating">
+      <option value="ضعيف">ضعيف</option>
+      <option value="متوسط">متوسط</option>
+      <option value="ممتاز">ممتاز</option>
+    </select>
+  </div>
+  
+  <div id="recommendationsTitle">التوصيات</div>
+  <textarea id="recommendations" placeholder="التوصيات"></textarea>
+
+  <a class="back-button" href="index.html.html" style="font-size: 18px; margin-top: 20px;">اضغط للرجوع إلى الصفحة الرئيسية</a>
+  
+  <script>
+    function deleteRow() {
+      var table = document.getElementById("myTable");
+      var rowCount = table.rows.length;
+      
+      if (rowCount > 1) {
+        table.deleteRow(rowCount - 1);
+      }
+    }
+    
+    function addRow() {
+      var table = document.getElementById("myTable");
+      var rowCount = table.rows.length;
+      var row = table.insertRow(rowCount);
+      
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+      
+      cell1.innerHTML = rowCount;
+      cell2.contentEditable = true;
+      cell3.contentEditable = true;
+    }
+    
+    function printPage() {
+      var recommendations = document.getElementById("recommendations").value;
+      var printContent = document.getElementById("companyNameContainer").innerHTML +
+        document.getElementById("noteContainer").innerHTML +
+        document.getElementById("myTable").outerHTML +
+        document.getElementById("ratingContainer").innerHTML +
+        '<div id="recommendationsTitle">التوصيات</div>' +
+        '<div id="recommendations">' + recommendations + '</div>';
+      
+      var originalContent = document.body.innerHTML;
+      document.body.innerHTML = printContent;
+      window.print();
+      document.body.innerHTML = originalContent;
+    }
+    
+    function updateCompanyName(event) {
+      if (event.key === 'Enter') {
+        var companyNameInput = document.getElementById("companyNameInput");
+        var companyName = document.getElementById("companyName");
+        companyName.textContent = companyNameInput.value;
+        companyNameInput.value = "";
+      }
+    }
+    
+    function deleteTable() {
+      var table = document.getElementById("myTable");
+      table.innerHTML = '<thead><tr><th>الأرقام</th><th>الملاحظات</th><th>الإجراءات</th></tr></thead><tbody><tr><td colspan="3">لا يوجد ملاحظات</td></tr></tbody>';
+    }
+  </script>
+</body>
+</html>
